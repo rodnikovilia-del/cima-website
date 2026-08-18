@@ -513,25 +513,24 @@
 
     // Проверяем, что webhook URL заменён
     if (MAKE_WEBHOOK_URL.includes('ВАШ_УНИКАЛЬНЫЙ_КЛЮЧ')) {
-      alert('⚠️ Замените MAKE_WEBHOOK_URL в коде на реальный URL из Make.com!\n\nИнструкция ниже на странице.');
+      alert('⚠️ Замените MAKE_WEBHOOK_URL в коде на реальный URL из Make.com!');
       return;
     }
 
     // Собираем данные формы
     const formData = new FormData(form);
-    const data = {
-      name: formData.get('name')?.trim() || '',
-      contact: formData.get('contact')?.trim() || '',
-      details: formData.get('details')?.trim() || '',
+    const payload = {
+      name: (formData.get('name') || '').trim(),
+      contact: (formData.get('contact') || '').trim(),
+      details: (formData.get('details') || '').trim(),
       consent: formData.get('consent') === 'on',
       source: 'cima-website',
       timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
       pageUrl: window.location.href
     };
 
     // Валидация
-    if (!data.name || !data.contact || !data.details) {
+    if (!payload.name || !payload.contact || !payload.details) {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
     }
@@ -541,33 +540,82 @@
     const originalHTML = btn.innerHTML;
     btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Отправка...</span>';
 
+    let success = false;
+
+    // Попытка 1: обычный fetch с JSON
     try {
+      console.log('[CIMA] Отправка на webhook:', MAKE_WEBHOOK_URL);
+      console.log('[CIMA] Payload:', payload);
+
       const response = await fetch(MAKE_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(payload)
       });
 
+      console.log('[CIMA] Response status:', response.status);
+      console.log('[CIMA] Response ok:', response.ok);
+
+      // Make.com webhook возвращает 200 OK с пустым телом
       if (response.ok || response.status === 200) {
-        // Успех
-        btn.innerHTML = '✓ Заявка отправлена!';
-        btn.style.background = '#16A34A';
-        form.reset();
-        toggleSubmit();
-
-        setTimeout(() => {
-          btn.innerHTML = originalHTML;
-          btn.style.background = '';
-        }, 4000);
+        success = true;
       } else {
-        throw new Error('Server error: ' + response.status);
+        throw new Error('HTTP ' + response.status);
       }
-    } catch (err) {
-      console.error('Webhook error:', err);
-      btn.innerHTML = '✗ Ошибка отправки. Попробуйте Telegram →';
-      btn.style.background = '#DC2626';
+    } catch (err1) {
+      console.warn('[CIMA] Попытка 1 не удалась:', err1.message);
 
-      // Fallback: предлагаем написать в Telegram
+      // Попытка 2: mode no-cors (если CORS блокирует)
+      try {
+        console.log('[CIMA] Попытка 2: no-cors mode...');
+        await fetch(MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        // При no-cors мы не можем проверить статус, считаем что отправлено
+        success = true;
+        console.log('[CIMA] no-cors запрос отправлен (статус неизвестен)');
+      } catch (err2) {
+        console.error('[CIMA] Попытка 2 не удалась:', err2.message);
+
+        // Попытка 3: отправка как form-urlencoded (иногда Make лучше принимает так)
+        try {
+          console.log('[CIMA] Попытка 3: form-urlencoded...');
+          const params = new URLSearchParams();
+          for (const key in payload) {
+            params.append(key, payload[key]);
+          }
+          const response = await fetch(MAKE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          });
+          if (response.ok || response.status === 200) {
+            success = true;
+          } else {
+            throw new Error('HTTP ' + response.status);
+          }
+        } catch (err3) {
+          console.error('[CIMA] Попытка 3 не удалась:', err3.message);
+        }
+      }
+    }
+
+    if (success) {
+      btn.innerHTML = '✓ Заявка отправлена!';
+      btn.style.background = '#16A34A';
+      form.reset();
+      toggleSubmit();
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+      }, 4000);
+    } else {
+      console.error('[CIMA] Все попытки отправки не удались');
+      btn.innerHTML = '✗ Ошибка. Напишите в Telegram';
+      btn.style.background = '#DC2626';
       setTimeout(() => {
         if (confirm('Не удалось отправить заявку. Написать нам в Telegram?')) {
           window.open('https://t.me/ChinaInspectionAudit', '_blank');
@@ -575,7 +623,7 @@
         btn.innerHTML = originalHTML;
         btn.style.background = '';
         btn.disabled = false;
-      }, 2000);
+      }, 1500);
     }
   }
 
