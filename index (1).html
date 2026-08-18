@@ -670,7 +670,18 @@
       return false;
     });
   })();
+// Альтернатива: отправка заявки прямо в Telegram бот
+const TELEGRAM_BOT_TOKEN = '8109108736:AAEBG1Vqe4OHeX8bVdKmQj22bB7MxmAVfEE';
+const TELEGRAM_CHAT_ID = '1004432777522';
 
+fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    chat_id: TELEGRAM_CHAT_ID,
+    text: `Новая заявка CIMA:\nИмя: ${name}\nTelegram: ${contact}\nЗадача: ${details}`
+  })
+});
   // Spinner animation
   const style = document.createElement('style');
   style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
