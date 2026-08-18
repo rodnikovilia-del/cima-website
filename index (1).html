@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIMA — Независимая инспекция фабрик и проверка товаров в Китае</title>
+<meta name="description" content="Независимая инспекция фабрик и проверка товаров в Китае перед отгрузкой в РФ. Первый аудит бесплатно.">
+<meta name="robots" content="noarchive, nocache">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cima-red: #DC143C;
+    --cima-red-dark: #B01030;
+    --cima-navy: #0A1F44;
+    --cima-navy-light: #122B5C;
+    --cima-gray: #F5F6F8;
+    --cima-text: #1A1A2E;
+    --cima-text-light: #6B7280;
+    --border: #E5E7EB;
+    --surface: #FFFFFF;
+    --radius: 14px;
+    --shadow: 0 4px 20px rgba(10,31,68,0.08);
+    --shadow-hover: 0 12px 40px rgba(10,31,68,0.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--cima-text); background: #fff; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  h1, h2, h3, .logo-main { font-family: 'Montserrat', sans-serif; }
+
+  /* ===== ANTI-COPY PROTECTION ===== */
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  input, textarea {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+  }
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+  }
+  .service-card img, .hero img { pointer-events: none; }
+
+  /* ===== HEADER ===== */
+  .header {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .header-left { display: flex; flex-direction: column; gap: 2px; }
+  .logo-main {
+    font-size: 28px; font-weight: 800;
+    color: var(--cima-red); text-transform: uppercase;
+    letter-spacing: 3px; line-height: 1;
+  }
+  .logo-sub {
+    font-size: 11px; font-weight: 500;
+    color: var(--cima-text-light); letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .btn-telegram {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 10px; border: none;
+    background: var(--cima-navy); color: #fff;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-telegram:hover {
+    background: var(--cima-navy-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(10,31,68,0.25);
+  }
+  .btn-telegram svg { width: 18px; height: 18px; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    padding: 100px 48px 110px;
+    background: var(--cima-navy);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(220,20,60,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative; max-width: 900px; margin: 0 auto; text-align: center;
+  }
+  .hero h1 {
+    font-size: 44px; font-weight: 700; line-height: 1.15;
+    color: #fff; margin: 0 0 20px; letter-spacing: -0.5px;
+  }
+  .hero p {
+    font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.75);
+    max-width: 720px; margin: 0 auto 36px;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 36px; border-radius: 12px; border: none;
+    background: var(--cima-red); color: #fff;
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700;
+    text-decoration: none; cursor: pointer; letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background: var(--cima-red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(220,20,60,0.35);
+  }
+  .btn-primary:disabled {
+    background: #9CA3AF;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ===== SECTIONS COMMON ===== */
+  .section { padding: 80px 48px; }
+  .section-gray { background: var(--cima-gray); }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--cima-red); margin: 0 0 12px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px; font-weight: 700; line-height: 1.2;
+    color: var(--cima-navy); margin: 0 0 16px; letter-spacing: -0.3px;
+  }
+  .section-desc {
+    font-size: 17px; line-height: 1.65; color: var(--cima-text-light);
+    max-width: 640px;
+  }
+
+  /* ===== SERVICES ===== */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin-top: 48px;
+  }
+  .service-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  .service-card .card-img {
+    width: 100%; height: 220px; object-fit: cover; display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .service-card .card-body { padding: 28px; }
+  .service-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px; font-weight: 700; margin: 0 0 12px; color: var(--cima-navy);
+  }
+  .service-card p {
+    font-size: 14.5px; line-height: 1.7; color: var(--cima-text-light); margin: 0 0 16px;
+  }
+  .service-card .result {
+    font-size: 14px; line-height: 1.6; color: var(--cima-text);
+    background: var(--cima-gray); padding: 14px 16px; border-radius: 10px;
+    margin: 0 0 18px; border-left: 3px solid var(--cima-red);
+  }
+  .service-card .price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px; font-weight: 700; color: var(--cima-red);
+  }
+  .service-card .price span { font-weight: 400; color: var(--cima-text-light); font-size: 13px; }
+
+  /* ===== STEPS ===== */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px;
+  }
+  .step-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border); padding: 32px 24px;
+    text-align: center; position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .step-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .step-num {
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--cima-red); color: #fff;
+    font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(220,20,60,0.3);
+  }
+  .step-card h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px; font-weight: 700; margin: 12px 0 10px; color: var(--cima-navy);
+  }
+  .step-card p {
+    font-size: 14px; line-height: 1.65; color: var(--cima-text-light); margin: 0;
+  }
+  .step-arrow {
+    position: absolute; right: -18px; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px; background: var(--cima-gray);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--cima-red); font-size: 14px; font-weight: 700; z-index: 2;
+    border: 2px solid var(--border);
+  }
+
+  /* ===== FORM ===== */
+  .form-section {
+    background: linear-gradient(180deg, var(--cima-gray) 0%, #fff 100%);
+    padding: 80px 48px 100px;
+  }
+  .form-box {
+    max-width: 560px; margin: 0 auto;
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-hover);
+    padding: 48px;
+  }
+  .form-box .section-label { text-align: center; }
+  .form-box .section-title { text-align: center; font-size: 28px; }
+  .form-box .form-subtitle {
+    text-align: center; font-size: 15px; color: var(--cima-text-light);
+    margin: 0 0 32px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 600; color: var(--cima-text);
+    margin-bottom: 6px;
+  }
+  .form-group label .req { color: var(--cima-red); }
+  .form-group input,
+  .form-group textarea {
+    width: 100%; padding: 14px 16px; border-radius: 10px;
+    border: 1px solid var(--border); background: #FAFBFC;
+    font-family: 'Inter', sans-serif; font-size: 15px; color: var(--cima-text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none; border-color: var(--cima-red);
+    box-shadow: 0 0 0 3px rgba(220,20,60,0.08);
+    background: #fff;
+  }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+
+  /* ===== CONSENT CHECKBOX (152-FZ) ===== */
+  .consent-group {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 24px; padding: 16px;
+    background: #FAFBFC; border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .consent-group input[type="checkbox"] {
+    width: 18px; height: 18px; min-width: 18px;
+    margin-top: 2px; accent-color: var(--cima-red);
+    cursor: pointer;
+  }
+  .consent-group label {
+    font-size: 13px; line-height: 1.6; color: var(--cima-text-light);
+    cursor: pointer;
+  }
+  .consent-group label a {
+    color: var(--cima-red); text-decoration: underline;
+  }
+  .consent-group label a:hover { color: var(--cima-red-dark); }
+  .consent-error {
+    color: var(--cima-red); font-size: 12px; margin-top: 6px;
+    display: none;
+  }
+
+  .form-box .btn-primary {
+    width: 100%; justify-content: center; padding: 18px;
+    font-size: 16px; margin-top: 8px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 32px 48px; text-align: center;
+    background: var(--cima-navy); color: rgba(255,255,255,0.5);
+    font-size: 13px;
+  }
+  .footer-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px; font-weight: 800; letter-spacing: 3px;
+    color: #fff; margin-bottom: 8px;
+  }
+  .footer-links {
+    margin-top: 12px; display: flex; justify-content: center; gap: 24px;
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: #fff; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .header { padding: 14px 20px; }
+    .hero { padding: 64px 20px 72px; }
+    .hero h1 { font-size: 28px; }
+    .hero p { font-size: 16px; }
+    .section { padding: 56px 20px; }
+    .services-grid { grid-template-columns: 1fr; gap: 20px; }
+    .steps-grid { grid-template-columns: 1fr; gap: 28px; }
+    .step-arrow { display: none; }
+    .form-section { padding: 56px 20px 72px; }
+    .form-box { padding: 28px; }
+    .section-title { font-size: 26px; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo-main">CIMA</div>
+    <div class="logo-sub">China Inspection Manufacturing Audit</div>
+  </div>
+  <a href="https://t.me/ChinaInspectionAudit" target="_blank" class="btn-telegram">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.141a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+    Связаться в Telegram
+  </a>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <h1>Независимая инспекция фабрик и проверка товаров в Китае перед отгрузкой в РФ</h1>
+    <p>CIMA контролирует качество партий, проверяет контрагентов по чек-листам и полностью защищает ваш импорт от брака.</p>
+    <a href="#form" class="btn-primary">
+      Заказать первый аудит за 0 ¥
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="section section-gray">
+  <div class="container">
+    <p class="section-label">Наши услуги и тарифы</p>
+    <h2 class="section-title">Проверяем фабрики и товары, чтобы вы не теряли деньги</h2>
+    <p class="section-desc">Полный цикл контроля качества от аудита производства до финальной инспекции перед отгрузкой.</p>
+
+    <div class="services-grid">
+      <!-- Card 1 -->
+      <div class="service-card">
+        <img class="card-img" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=450&fit=crop&q=80" alt="Аудит фабрики — инспектор проверяет документы и производство">
+        <div class="card-body">
+          <h3>Аудит фабрики или контрагента</h3>
+          <p>Выезд инспектора на производство. Проверка юридического статуса компании, лицензий, реальных мощностей, оборудования и условий хранения.</p>
+          <div class="result">
+            <strong>Результат:</strong> Вы точно знаете, существует ли фабрика в реальности или это перекупщик-мошенник.
+          </div>
+          <div class="price">0 юаней <span>— Первый аудит бесплатно для новых клиентов</span></div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="service-card">
+        <img class="card-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=450&fit=crop&q=80" alt="Проверка товара на складе перед отгрузкой в контейнер">
+        <div class="card-body">
+          <h3>Проверка товара перед отгрузкой</h3>
+          <p>Инспекция на складе перед запечатыванием контейнера. Проверка партии строго по вашему чек-листу: внешний вид, комплектация, работоспособность, качество сборки, надежность упаковки и маркировка Честный ЗНАК / ЕАС.</p>
+          <div class="result">
+            <strong>Результат:</strong> Исключаем отправку бракованной партии в Россию. Вы не теряете деньги на логистике брака.
+          </div>
+          <div class="price">от 390 юаней <span>/ партия</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STEPS ===== -->
+<section class="section">
+  <div class="container">
+    <p class="section-label">Как мы работаем</p>
+    <h2 class="section-title">От заявки до отгрузки — 4 простых шага</h2>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Заявка</h4>
+        <p>Вы оставляете техзадание и контакты поставщика через форму ниже или в Telegram.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Согласование</h4>
+        <p>Мы связываемся с фабрикой и назначаем дату выезда инспектора.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Инспекция</h4>
+        <p>Проводим проверку и отправляем вам подробный отчет: фото, видео, чек-лист дефектов.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>Оплата и отгрузка</h4>
+        <p>Вы оплачиваете инспекцию в рублях (картой или через СБП), и фабрика отправляет проверенный товар в РФ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORM ===== -->
+<section class="form-section" id="form">
+  <div class="form-box">
+    <p class="section-label">Форма заказа</p>
+    <h2 class="section-title">Оставьте заявку на аудит поставщика</h2>
+    <p class="form-subtitle">Наш менеджер свяжется с вами в Telegram в течение 15 минут для уточнения деталей.</p>
+
+    <form id="orderForm" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>Ваше имя <span class="req">*</span></label>
+        <input type="text" name="name" placeholder="Иван Петров" required>
+      </div>
+      <div class="form-group">
+        <label>Ваш Telegram <span class="req">*</span></label>
+        <input type="text" name="contact" placeholder="@username" required>
+      </div>
+      <div class="form-group">
+        <label>Что нужно проверить? <span class="req">*</span></label>
+        <textarea name="details" placeholder="Опишите товар, укажите ссылку на фабрику или контакты поставщика..." required></textarea>
+      </div>
+
+      <!-- 152-FZ Consent -->
+      <div class="consent-group">
+        <input type="checkbox" id="consent" name="consent" onchange="toggleSubmit()">
+        <label for="consent">
+          Я согласен на обработку моих персональных данных (имя, контактные данные) в соответствии с Федеральным законом № 152-ФЗ «О персональных данных». 
+          <a href="#privacy" onclick="alert('Политика конфиденциальности будет размещена на отдельной странице. Для уточнений свяжитесь с нами в Telegram.'); return false;">Политика конфиденциальности</a>.
+        </label>
+      </div>
+      <div class="consent-error" id="consentError">Для отправки заявки необходимо дать согласие на обработку персональных данных.</div>
+
+      <button type="submit" class="btn-primary" id="submitBtn" disabled>
+        Получить аудит
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-logo">CIMA</div>
+  <p>© 2026 CIMA — China Inspection Manufacturing Audit. Все права защищены.</p>
+  <div class="footer-links">
+    <a href="#privacy" onclick="alert('Политика конфиденциальности в разработке. Свяжитесь с нами в Telegram для уточнений.'); return false;">Политика конфиденциальности</a>
+    <a href="#privacy" onclick="alert('Согласие на обработку персональных данных оформляется в соответствии с требованиями ФЗ-152.'); return false;">152-ФЗ</a>
+  </div>
+</footer>
+
+<script>
+  // ═══════════════════════════════════════════════
+  //  MAKE.COM WEBHOOK INTEGRATION
+  //  Замените URL ниже на ваш webhook из Make.com
+  // ═══════════════════════════════════════════════
+  const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/ysuu8dc0bqw2fsnhc436383noqjqsqdu';
+
+  // ===== FORM HANDLING =====
+  function toggleSubmit() {
+    const consent = document.getElementById('consent');
+    const btn = document.getElementById('submitBtn');
+    const error = document.getElementById('consentError');
+    btn.disabled = !consent.checked;
+    error.style.display = 'none';
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const consent = document.getElementById('consent');
+    const error = document.getElementById('consentError');
+    const btn = document.getElementById('submitBtn');
+    const form = document.getElementById('orderForm');
+
+    if (!consent.checked) {
+      error.style.display = 'block';
+      return;
+    }
+
+    // Проверяем, что webhook URL заменён
+    if (MAKE_WEBHOOK_URL.includes('ВАШ_УНИКАЛЬНЫЙ_КЛЮЧ')) {
+      alert('⚠️ Замените MAKE_WEBHOOK_URL в коде на реальный URL из Make.com!');
+      return;
+    }
+
+    // Собираем данные формы
+    const formData = new FormData(form);
+    const payload = {
+      name: (formData.get('name') || '').trim(),
+      contact: (formData.get('contact') || '').trim(),
+      details: (formData.get('details') || '').trim(),
+      consent: formData.get('consent') === 'on',
+      source: 'cima-website',
+      timestamp: new Date().toISOString(),
+      pageUrl: window.location.href
+    };
+
+    // Валидация
+    if (!payload.name || !payload.contact || !payload.details) {
+      alert('Пожалуйста, заполните все обязательные поля.');
+      return;
+    }
+
+    // Блокируем кнопку и показываем загрузку
+    btn.disabled = true;
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Отправка...</span>';
+
+    let success = false;
+
+    // Попытка 1: обычный fetch с JSON
+    try {
+      console.log('[CIMA] Отправка на webhook:', MAKE_WEBHOOK_URL);
+      console.log('[CIMA] Payload:', payload);
+
+      const response = await fetch(MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      console.log('[CIMA] Response status:', response.status);
+      console.log('[CIMA] Response ok:', response.ok);
+
+      // Make.com webhook возвращает 200 OK с пустым телом
+      if (response.ok || response.status === 200) {
+        success = true;
+      } else {
+        throw new Error('HTTP ' + response.status);
+      }
+    } catch (err1) {
+      console.warn('[CIMA] Попытка 1 не удалась:', err1.message);
+
+      // Попытка 2: mode no-cors (если CORS блокирует)
+      try {
+        console.log('[CIMA] Попытка 2: no-cors mode...');
+        await fetch(MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        // При no-cors мы не можем проверить статус, считаем что отправлено
+        success = true;
+        console.log('[CIMA] no-cors запрос отправлен (статус неизвестен)');
+      } catch (err2) {
+        console.error('[CIMA] Попытка 2 не удалась:', err2.message);
+
+        // Попытка 3: отправка как form-urlencoded (иногда Make лучше принимает так)
+        try {
+          console.log('[CIMA] Попытка 3: form-urlencoded...');
+          const params = new URLSearchParams();
+          for (const key in payload) {
+            params.append(key, payload[key]);
+          }
+          const response = await fetch(MAKE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          });
+          if (response.ok || response.status === 200) {
+            success = true;
+          } else {
+            throw new Error('HTTP ' + response.status);
+          }
+        } catch (err3) {
+          console.error('[CIMA] Попытка 3 не удалась:', err3.message);
+        }
+      }
+    }
+
+    if (success) {
+      btn.innerHTML = '✓ Заявка отправлена!';
+      btn.style.background = '#16A34A';
+      form.reset();
+      toggleSubmit();
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+      }, 4000);
+    } else {
+      console.error('[CIMA] Все попытки отправки не удались');
+      btn.innerHTML = '✗ Ошибка. Напишите в Telegram';
+      btn.style.background = '#DC2626';
+      setTimeout(() => {
+        if (confirm('Не удалось отправить заявку. Написать нам в Telegram?')) {
+          window.open('https://t.me/ChinaInspectionAudit', '_blank');
+        }
+        btn.innerHTML = originalHTML;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 1500);
+    }
+  }
+
+  // ===== ANTI-COPY / ANTI-SCRAPE PROTECTION =====
+  (function() {
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    document.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    document.addEventListener('drop', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    document.addEventListener('keydown', function(e) {
+      if (
+        (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 's' || e.key === 'p' || e.key === 'u')) ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) ||
+        e.key === 'F12'
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    });
+    setInterval(function() {
+      const start = new Date();
+      debugger;
+      const end = new Date();
+      if (end - start > 100) {
+        window.location.reload();
+      }
+    }, 2000);
+    document.addEventListener('selectstart', function(e) {
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    window.addEventListener('beforeprint', function(e) {
+      e.preventDefault();
+      return false;
+    });
+  })();
+
+  // Spinner animation
+  const style = document.createElement('style');
+  style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>
